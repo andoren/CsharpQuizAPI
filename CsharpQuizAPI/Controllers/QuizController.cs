@@ -40,20 +40,24 @@ namespace CsharpQuizAPI.Controllers
 
         // POST api/<QuizController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] Quiz newQuiz)
         {
+            return Ok(service.AddQuiz(newQuiz));
         }
 
         // PUT api/<QuizController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public IActionResult Put([FromBody] Quiz modifyQuiz)
         {
+            return Ok(service.ModifyQuiz(modifyQuiz));
         }
 
         // DELETE api/<QuizController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            bool result = service.DeleteQuiz(id);
+            return Ok(result);
         }
     }
 }
