@@ -4,5 +4,11 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="CsharpQuizLibrary">
+      <HintPath>C:\Users\Misi\source\repos\CsharpQuizLibrary\CsharpQuizLibrary\bin\Debug\netcoreapp3.1\CsharpQuizLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 
 </Project>
