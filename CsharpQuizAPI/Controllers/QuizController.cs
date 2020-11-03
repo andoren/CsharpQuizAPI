@@ -26,7 +26,8 @@ namespace CsharpQuizAPI.Controllers
             for (int i = 0; i < number; i++)
             {
                 int id = rnd.Next(0, 500);
-                data[i] = new Quiz(id, "Question"+id, "Explanation"+id, new string[4] {"Answer1","Answer2","Answer3","Answer4" },"Answer"+rnd.Next(1,4));            }
+                data[i] = new Quiz(id, "Question"+id, "Explanation"+id, new string[4] {"Answer1","Answer2","Answer3","Answer4"},"Answer"+rnd.Next(1,4));            
+            }
             return data;
         }
 
