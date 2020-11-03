@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CsharpQuizLibrary.Models;
+using CsharpQuizLibrary.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,6 +14,11 @@ namespace CsharpQuizAPI.Controllers
     [ApiController]
     public class QuizController : ControllerBase
     {
+        public QuizController(IQuizService service)
+        {
+            this.service = service;
+        }
+        IQuizService service;
         private static readonly Random rnd = new Random();
         // GET: api/<QuizController>
         [HttpGet]
@@ -22,13 +28,7 @@ namespace CsharpQuizAPI.Controllers
         }
         [HttpGet("random/{number}")]
         public IEnumerable<Quiz> GetQuizzes(int number) {
-            Quiz[] data = new Quiz[number];
-            for (int i = 0; i < number; i++)
-            {
-                int id = rnd.Next(0, 500);
-                data[i] = new Quiz(id, "Question"+id, "Explanation"+id, new string[4] {"Answer1","Answer2","Answer3","Answer4"},"Answer"+rnd.Next(1,4));            
-            }
-            return data;
+            return service.GetRandomQuizzes(number);
         }
 
         // GET api/<QuizController>/5
