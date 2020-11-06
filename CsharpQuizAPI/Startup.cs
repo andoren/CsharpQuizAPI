@@ -42,7 +42,7 @@ namespace CsharpQuizAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            
 
             app.UseRouting();
 

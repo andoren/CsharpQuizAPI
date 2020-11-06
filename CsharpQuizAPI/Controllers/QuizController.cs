@@ -27,8 +27,8 @@ namespace CsharpQuizAPI.Controllers
             return new string[] { "value1", "value2" };
         }
         [HttpGet("random/{number}")]
-        public IEnumerable<Quiz> GetQuizzes(int number) {
-            return service.GetRandomQuizzes(number);
+        public IActionResult GetQuizzes(int number) {
+            return Ok(service.GetRandomQuizzes(number));
         }
 
         // GET api/<QuizController>/5

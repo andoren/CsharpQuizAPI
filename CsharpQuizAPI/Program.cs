@@ -21,6 +21,7 @@ namespace CsharpQuizAPI
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://192.168.88.13:5000");
                 });
     }
 }
