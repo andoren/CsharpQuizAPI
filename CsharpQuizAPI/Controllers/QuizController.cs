@@ -20,7 +20,7 @@ namespace CsharpQuizAPI.Controllers
             this.service = service;
         }
         IQuizService service;
-        private static readonly Random rnd = new Random();
+     
         // GET: api/<QuizController>
  
         [HttpGet("random/{number}")]
@@ -68,15 +68,41 @@ namespace CsharpQuizAPI.Controllers
         [HttpPut]
         public IActionResult Put([FromBody] Quiz modifyQuiz)
         {
-            return Ok(service.ModifyQuiz(modifyQuiz));
+            try
+            {
+                return Ok(service.ModifyQuiz(modifyQuiz));
+            }
+            catch (QuizNotFoundException exx) {
+                return NotFound(exx.Message);
+            }
+            catch (DuplicateQuizException ex)
+            {
+                return Conflict(ex.Message);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+            
         }
 
         // DELETE api/<QuizController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            bool result = service.DeleteQuiz(id);
-            return Ok(result);
+            try
+            {
+
+                bool result = service.DeleteQuiz(id);
+                return Ok(result);
+            }
+            catch (QuizNotFoundException ex) {
+                return NotFound(ex);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
         }
     }
 }
