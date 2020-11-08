@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CsharpQuizLibrary.Models;
+using CsharpQuizLibrary.Models.Exceptions.QuizExceptions;
 using CsharpQuizLibrary.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,11 +22,7 @@ namespace CsharpQuizAPI.Controllers
         IQuizService service;
         private static readonly Random rnd = new Random();
         // GET: api/<QuizController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+ 
         [HttpGet("random/{number}")]
         public IActionResult GetQuizzes(int number) {
             return Ok(service.GetRandomQuizzes(number));
@@ -33,16 +30,38 @@ namespace CsharpQuizAPI.Controllers
 
         // GET api/<QuizController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetQuiz(int id)
         {
-            return "value";
+
+            try
+            {
+                return Ok(service.GetQuizById(id));
+            }
+            catch (QuizNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception e) {
+                return Problem(e.Message);
+            }
+            
         }
 
         // POST api/<QuizController>
         [HttpPost]
-        public IActionResult Post([FromBody] Quiz newQuiz)
+        public IActionResult AddQuiz([FromBody] Quiz newQuiz)
         {
-            return Ok(service.AddQuiz(newQuiz));
+            try
+            {
+                return Created("QuizService",service.AddQuiz(newQuiz));
+            }
+            catch (DuplicateQuizException ex) {
+                return Conflict(ex.Message);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }  
         }
 
         // PUT api/<QuizController>/5
